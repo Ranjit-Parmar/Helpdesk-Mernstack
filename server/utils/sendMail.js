@@ -1,15 +1,16 @@
 import nodemailer from 'nodemailer';
 
-
 const transporter = nodemailer.createTransport({
-  host: "smtp.gmail.com",
-  port: 465,
+  host: process.env.SMPT_HOST,
+  port: process.env.SMPT_PORT,
   secure: true,
   auth: {
-    user: "rjtpmr@gmail.com",
-    pass: "vksksahpvfqfzxuf",
+    user: process.env.SMTP_MAIL,
+    pass: process.env.SMTP_PASSWORD,
   },
 });
+
+
 
 export  const sendMail = async (userEmail, token) => { 
 
@@ -20,7 +21,7 @@ const option = {
 }
 
     const message = {
-        from: 'rjtpmr@gmail.com', 
+        from: process.env.SMTP_MAIL, 
         to: option.email, 
         subject: "Reset Password", 
         text: option.text, 

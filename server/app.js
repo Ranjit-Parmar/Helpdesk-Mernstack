@@ -1,6 +1,7 @@
-dotenv.config();
+import {config} from "dotenv";
+config({ path: ".env" });
+
 import express from "express";
-import dotenv from "dotenv";
 import cors from 'cors';
 import { fileURLToPath } from 'url';
 import path from 'path';  
@@ -20,6 +21,7 @@ process.on("uncaughtException", (err) => {
   console.log("server is shutting down due to uncaughtException occur!");
   process.exit(1);
 });
+
 
 const app = express();
 

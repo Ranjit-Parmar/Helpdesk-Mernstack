@@ -22,7 +22,6 @@ router.put("/updateTicket/:id/status",authenticateUser, authorization, updateTic
 router.put("/addAssignee/:id",authenticateUser, authorization, addAssigneeToTicket); 
 
 router.post("/addNote/:id/note", authenticateUser, upload.single("attachments"), addNoteToTicket); 
-
 router.delete("/deleteTicket/:id", authenticateUser, authorization, deleteTicket);
 
 
