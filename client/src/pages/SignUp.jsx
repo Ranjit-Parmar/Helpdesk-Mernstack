@@ -4,11 +4,13 @@ import { userLogIn } from "../redux/reducers/userReducer";
 import { useCreateUserMutation } from "../redux/api/userApi";
 import { useDispatch } from "react-redux";
 import toast from "react-hot-toast";
+import { ClipLoader } from "react-spinners";
 
 const SignUp = () => {
   const Navigate = useNavigate();
   const dispatch = useDispatch();
   const [createUser] = useCreateUserMutation();
+  const [disableButton, setDisableButton] = useState(false);
   const [userSignupData, setUserSignupData] = useState({
     username: "",
     email: "",
@@ -24,6 +26,7 @@ const SignUp = () => {
   const handleSubmit = async (e) => {
     try {
       e.preventDefault();
+      setDisableButton(true)
 
       const responseData = await createUser(userSignupData);
 
@@ -31,13 +34,16 @@ const SignUp = () => {
         const { data } = responseData;
         dispatch(userLogIn(data?.user));
         toast.success("user created successfully");
+        setDisableButton(false);
         Navigate("/", { replace: true });
       } else {
         const { data } = responseData?.error;
         toast.error(data.error);
+        setDisableButton(false);
       }
     } catch (error) {
       console.log("fail ", error);
+      setDisableButton(false);
     }
   };
   return (
@@ -96,9 +102,10 @@ const SignUp = () => {
             </div>
             <button
               type="submit"
-              className="w-full bg-blue-500 text-white py-2 rounded hover:bg-blue-700 transition-colors"
+              className={`${
+                disableButton ? "pointer-events-none opacity-80" : ""} w-full bg-blue-500 text-white py-2 rounded hover:bg-blue-700 transition-colors`}
             >
-              Sign Up
+              {disableButton ? <ClipLoader color="#ffffff" size={20} /> : "Sign Up"}
             </button>
           </form>
           <div className="mt-4 text-center">

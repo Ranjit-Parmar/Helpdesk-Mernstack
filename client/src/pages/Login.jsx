@@ -4,6 +4,7 @@ import { useLoginUserMutation } from "../redux/api/userApi";
 import { userLogIn } from "../redux/reducers/userReducer";
 import toast from "react-hot-toast";
 import { useDispatch, useSelector } from "react-redux";
+import { ClipLoader } from "react-spinners";
 
 const Login = () => {
 
@@ -11,6 +12,7 @@ const Login = () => {
   const { isLoggedIn, user } = useSelector((state) => state.userReducer);
   const [loginUser] = useLoginUserMutation();
 
+  const [disableButton, setDisableButton] = useState(false);
   const [userLoginData, setUserLoginData] = useState({
     email: "",
     password: "",
@@ -42,6 +44,7 @@ const Login = () => {
 
     try {
       e.preventDefault();
+      setDisableButton(true)
 
       const responseData = await loginUser(userLoginData);
 
@@ -53,16 +56,19 @@ const Login = () => {
 
         dispatch(userLogIn(data?.user));
         toast.success("user login successfully");
+        setDisableButton(false);
         return <Navigate to="/" replace={true} />;
 
       } else {
 
         const { data } = responseData?.error;
         toast.error(data.message);
+        setDisableButton(false);
         
       }
     } catch (error) {
       console.log("fail ", error);
+      setDisableButton(false);
     }
   };
   return (
@@ -104,9 +110,11 @@ const Login = () => {
           </div>
           <button
             type="submit"
-            className="w-full bg-blue-500 text-white py-2 rounded hover:bg-blue-700 transition-colors"
+            className={`${
+                disableButton ? "pointer-events-none opacity-80" : ""} w-full bg-blue-500 text-white py-2 rounded hover:bg-blue-700 transition-colors`}
+            disabled={disableButton}
           >
-            Log In
+             {disableButton ? <ClipLoader color="#ffffff" size={20} /> : "Log In"}
           </button>
         </form>
         <div className="mt-4 text-center flex flex-col">
