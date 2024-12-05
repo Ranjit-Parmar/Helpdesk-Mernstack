@@ -34,17 +34,17 @@ cloudinary.config({
 });
 
 // Middleware
+app.use(cookieParser());
+app.use(express.json());
+app.use(morgan('dev'));
+app.use(bodyParser.urlencoded({ extended: true }));
 app.use(cors({
-  origin: [process.env.CLIENT_URL], 
+  origin: process.env.CLIENT_URL, 
   methods: ['GET', 'POST', 'PUT', 'PATCH', 'DELETE'], 
   credentials: true, 
 }));
 app.use(express.static(path.join(__dirname, 'client/build')));
 app.use("/uploads", express.static("uploads"));
-app.use(cookieParser());
-app.use(express.json());
-app.use(morgan('dev'));
-app.use(bodyParser.urlencoded({ extended: true }));
 
 // Routes
 app.use("/api/v1/user", userRoutes);
