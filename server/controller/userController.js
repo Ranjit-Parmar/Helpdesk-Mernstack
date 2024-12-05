@@ -215,6 +215,7 @@ export const deleteUser = asyncHandler(async (req, res, next) => {
 
 // Forgot Password
 export const forgotPassword = asyncHandler(async (req, res, next) => {
+  
   const { email } = req.body;
 
   //    find user in database by email
@@ -229,7 +230,7 @@ export const forgotPassword = asyncHandler(async (req, res, next) => {
   const token = await userExist.generatePasswordResetToken();
 
   await userExist.save();
-
+  
   // send token to user's mail
   const sendMailInfo = await sendMail(userExist, token);
 
