@@ -1,4 +1,3 @@
-// src/pages/Tickets.js
 import React, { useState } from 'react';
 import Edit_Icon from '../assets/Edit_Icon.svg';
 import { FaReply } from "react-icons/fa";

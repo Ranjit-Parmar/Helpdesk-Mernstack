@@ -1,5 +1,4 @@
 import React, { useState } from "react";
-import { Navigate } from "react-router-dom";
 import { useForgotPasswordMutation } from "../redux/api/userApi";
 import toast from "react-hot-toast";
 import { ClipLoader } from "react-spinners";

@@ -29,7 +29,7 @@ export const userSlice = createSlice({
 export const getUser = async () => {
   try {
     const option = {
-      url: "http://localhost:3000/api/v1/user/loadUser",
+      url: "https://helpdesk-mernstack.onrender.com/api/v1/user/loadUser",
       method: "GET",
       withCredentials: true,
     };

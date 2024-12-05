@@ -5,7 +5,7 @@ export const ticketApi = createApi({
 
     reducerPath : 'ticketApi',
     baseQuery : fetchBaseQuery({
-        baseUrl : "http://localhost:3000/api/v1/ticket/",
+        baseUrl : "https://helpdesk-mernstack.onrender.com/api/v1/ticket/",
         credentials : 'include'
     }),
     tagTypes : ['tickets'],

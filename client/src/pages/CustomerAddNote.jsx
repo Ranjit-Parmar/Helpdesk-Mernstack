@@ -2,7 +2,6 @@ import React, { useRef, useState } from "react";
 import ProfileIcon from "../assets/profile-icon.png";
 import { useAddNotesToTicketMutation, useGetSingleTicketQuery } from "../redux/api/ticketApi";
 import { useParams } from "react-router-dom";
-import { useSelector } from "react-redux";
 import toast from "react-hot-toast";
 import { ClipLoader } from "react-spinners";
 import Loader from "../components/Loader";
@@ -13,8 +12,6 @@ const CustomerAddNote = () => {
   const {id} = useParams();
   const { data:ticketData, isLoading:ticketIsLoading, isError:ticketIsError } = useGetSingleTicketQuery(id);
   const [addNotesToTicket] = useAddNotesToTicketMutation();
-  
-  const {user} = useSelector((state)=>state.userReducer);
   
   const [note, setNote] = useState("");
   const [attachments, setAttachments] = useState(null);
