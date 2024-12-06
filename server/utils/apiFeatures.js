@@ -1,21 +1,19 @@
 export class ApiFeatures {
-    
   constructor(query, queryStr) {
     this.query = query;
     this.queryStr = queryStr;
   }
 
-// Filter Query
+  // Filter Query
   filter() {
-
     let queryCopy = { ...this.queryStr };
-    
-    // Exclude field
 
-    let excludeFiels = ["page", "sort", "limit", "fields"];
+    // Exclude page, sort, limit, fields from query
+    let excludeFields = ['page', 'sort', 'limit', 'fields'];
 
-    excludeFiels.forEach((val) => delete queryCopy[val]);
+    excludeFields.forEach((val) => delete queryCopy[val]);
 
+    // If any filters are provided, apply them
     this.query = this.query.find(queryCopy);
 
     return this;
@@ -24,7 +22,11 @@ export class ApiFeatures {
   // Sort Query
   sort() {
     if (this.queryStr.sort) {
-      this.query.find().sort({ lastUpdated: 1 });
+      const sortBy = this.queryStr.sort.split(',').join(' ');
+      this.query = this.query.sort(sortBy);
+    } else {
+      // Default sort if no sort param is provided
+      this.query = this.query.sort({ lastUpdated: -1 });
     }
     return this;
   }
@@ -35,7 +37,7 @@ export class ApiFeatures {
     const limit = this.queryStr.limit * 1 || ticketPerPage * 1;
     const skip = (page - 1) * limit;
 
-    this.query = this.query.limit(limit).skip(skip);
+    this.query = this.query.skip(skip).limit(limit);
     return this;
   }
 }

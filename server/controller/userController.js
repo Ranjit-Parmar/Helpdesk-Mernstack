@@ -114,12 +114,14 @@ export const loadUser = asyncHandler(async (req, res, next) => {
 // Get All Users
 export const getAllUsers = asyncHandler(async (req, res, next) => {
 
-  // const getAllUser = await User.find();
-  const resultApiFeatures = new ApiFeatures(User.find(), req.query)
-    .filter()
-    .pagination();
+  const page = process.env.TICKETS_PER_PAGE;
+  const resultApiFeatures = new ApiFeatures(User.find(), req.query).filter().pagination(page);
 
   const getAllUser = await resultApiFeatures.query;
+
+  const countUsers = await User.countDocuments({
+    role : req.query.role || { $in: ['admin', 'agent', 'customer'] },
+  })
 
   if (!getAllUser) {
     const err = new CustomError("Users not found", 404);
@@ -128,6 +130,8 @@ export const getAllUsers = asyncHandler(async (req, res, next) => {
 
   res.status(200).json({
     success: true,
+    itemPerPage : Number(page),
+    totalDocuments : countUsers,
     length: getAllUser.length,
     getAllUser,
   });

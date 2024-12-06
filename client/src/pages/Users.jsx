@@ -10,8 +10,9 @@ import Loader from '../components/Loader';
 const User = () => {
 
   const [userRole, setUserRole] = useState('');
+  const [page, setPage] = useState(1);
 
-  const { data, isLoading, isError } = useGetAllUsersQuery(userRole);
+  const { data, isLoading, isError } = useGetAllUsersQuery({role:userRole,page:page});
   const [ deleteUser ] = useDeleteUserMutation();
 
   const deleteHandler = async (id) => {
@@ -26,6 +27,11 @@ const User = () => {
         toast.error('something went wrong! please try again');
       }
   }
+
+  const setPageNumberHandler = (val) => {
+    setPage(val);
+  }
+  
   
   // Error handling if the query fails
 if (isError) {
@@ -80,7 +86,7 @@ if (isError) {
         )}
       </div>
 
-      <Pagination/>
+      <Pagination totalDocuments={data && data.totalDocuments} setPageNumberHandler={setPageNumberHandler}  itemPerPage={data && data.itemPerPage}/>
     </div>
   );
 };

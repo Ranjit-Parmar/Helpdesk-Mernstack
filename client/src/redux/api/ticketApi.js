@@ -12,45 +12,57 @@ export const ticketApi = createApi({
     endpoints : (builder) => ({
         // fetch all users ticket (for admin)
         getAllTickets: builder.query({
+            query: (ticketFilter) => {
+              const params = new URLSearchParams();
+          
+              if (ticketFilter?.status) params.append('status', ticketFilter.status);
+              if (ticketFilter?.tags) params.append('tags', ticketFilter.tags);
+              if (ticketFilter?.page) params.append('page', ticketFilter.page);
+          
+              return {
+                url: `getAllTickets?${params.toString()}`,
+              };
+            },
+            providesTags: ['tickets'],
+          }),
+          
+          
 
-            query: (ticketFilter) => { 
-              let baseQuery = '';
-              if (ticketFilter?.status) baseQuery += `status=${ticketFilter?.status}&`;
-              if (ticketFilter?.tags) baseQuery += `tags=${ticketFilter?.tags}&`;
-              if (ticketFilter?.page) baseQuery += `page=${ticketFilter?.page}&`;
-          
-              // Remove the trailing '&' if present
-              baseQuery = baseQuery.endsWith('&') ? baseQuery.slice(0, -1) : baseQuery;
-          
-              return { url: `getAllTickets?${baseQuery}` };
+        // get all customers ticket
+        getAllCustomerTickets: builder.query({
+            query: ({ id, status, tags }) => {
+
+              const params = new URLSearchParams();
+              if (status) params.append('status', status);
+              if (tags) params.append('tags', tags);
+              const queryString = params.toString();
+        
+              return {
+                url: `getAllCustomerTickets/${id}${queryString ? `?${queryString}` : ''}`,
+              };
             },
             providesTags: ['tickets'],
           }),
           
 
-        // get all customers ticket
-        getAllCustomerTickets : builder.query({
-            query : ({id,status,tags}) => {
-                            
-              let baseQuery = '';
-                if(status) baseQuery += `status=${status}&`;
-                if(tags) baseQuery += `tags=${tags}&`;
-                return {url : `getAllCustomerTickets/${id}?${baseQuery}`};
-            },
-            providesTags : ['tickets']
-        }),
-
         // get agent admin's ticket
-        getAllAgentTickets : builder.query({
-            query : ({id, status, tags, page}) => {
-                let baseQuery = '';
-                if(status) baseQuery += `status=${status}&`;
-                if(tags) baseQuery += `tags=${tags}&`;
-                if(page) baseQuery += `page=${page}&`;
-                return {url : `getAllAgentTickets/${id}?${baseQuery}`};
+        getAllAgentTickets: builder.query({
+            query: ({ id, status, tags, page }) => {
+
+              const params = new URLSearchParams();
+              if (status) params.append('status', status);
+              if (tags) params.append('tags', tags);
+              if (page) params.append('page', page);
+          
+              const queryString = params.toString(); 
+
+              return {
+                url: `getAllAgentTickets/${id}${queryString ? `?${queryString}` : ''}`, 
+              };
             },
-            providesTags : ['tickets']
-        }),
+            providesTags: ['tickets'],
+          }),
+          
         
         // get single ticket
         getSingleTicket : builder.query({

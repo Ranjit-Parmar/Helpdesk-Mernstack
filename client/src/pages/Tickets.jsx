@@ -112,7 +112,7 @@ if (isError || agentIsError) {
         </tbody>
       </table>)}
     </div>
-    {user.role==='admin'? <Pagination totalTickets={ticketData && ticketData.totalDocuments} setPageNumberHandler={setPageNumberHandler}  itemPerPage={ticketData && ticketData.itemPerPage}/> : <Pagination totalTickets={allAgentTickets && allAgentTickets.totalDocuments} setPageNumberHandler={setPageNumberHandler} itemPerPage={allAgentTickets && allAgentTickets.itemPerPage}/>}
+    {user.role==='admin'? <Pagination totalDocuments={ticketData && ticketData.totalDocuments} setPageNumberHandler={setPageNumberHandler}  itemPerPage={ticketData && ticketData.itemPerPage}/> : <Pagination totalDocuments={allAgentTickets && allAgentTickets.totalDocuments} setPageNumberHandler={setPageNumberHandler} itemPerPage={allAgentTickets && allAgentTickets.itemPerPage}/>}
    </div>
    </>
       

@@ -46,12 +46,14 @@ export const userApi = createApi({
         }),
 
         getAllUsers : builder.query({
-            query : (userRole) => {
-                let base_query = '';
-
-                if(userRole) base_query += `role=${userRole}`
+            query : (userFilter) => {
+                const params = new URLSearchParams();
+                if (userFilter?.role) params.append('role', userFilter.role);
+                if (userFilter?.page) params.append('page', userFilter.page);
+                return {
+                  url: `getAllUsers?${params.toString()}`,
+                };
                 
-                return `getAllUsers?${base_query}`
             },
             providesTags : ['users']
         }),

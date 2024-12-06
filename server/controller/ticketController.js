@@ -44,26 +44,33 @@ export const createTicket = asyncHandler(async (req, res, next) => {
 });
 
 
-// Get All Ticket 
+// Get All Tickets 
 export const getAllTickets = asyncHandler(async (req, res, next) => {
 
-  const page = process.env.TICKETS_PER_PAGE;
-  const countTickets = await Ticket.countDocuments();
-    
+  // Set the default number of tickets per page
+  const page = process.env.TICKETS_PER_PAGE || 10;
+
   // Find tickets based on given query
   const features = new ApiFeatures(Ticket.find(), req.query).filter().sort().pagination(page);
-  
 
-  const getTickets = await features.query.populate("customerId"); 
+  const getTickets = await features.query.populate("customerId");
+
+  // Get the count of tickets after applying the filters
+  const countTickets = await Ticket.countDocuments({
+    status: req.query.status || { $in: ['active', 'pending', 'closed'] },
+    tags: req.query.tags || { $in: ['Technical', 'Billing', 'Account', 'General'] },
+  });
   
   res.status(200).json({
     success: true,
-    itemPerPage : page,
-    totalDocuments : countTickets,
-    length : getTickets?.length,
-    allTickets: getTickets,
+    itemPerPage: page,
+    totalDocuments: countTickets,
+    length: getTickets.length, 
+    allTickets: getTickets, 
   });
 });
+
+
 
 // Get Single Ticket 
 export const getSingleTicket = asyncHandler(async (req, res, next) => {
@@ -89,41 +96,63 @@ export const getSingleTicket = asyncHandler(async (req, res, next) => {
 // Get All Customer Ticket 
 export const getAllCustomerTickets = asyncHandler(async (req, res, next) => {
 
-    const {id} = req.params;
+  
+    // Set the default number of tickets per page
+  const page = process.env.TICKETS_PER_PAGE || 10; 
+  const {id} = req.params;
+
   // Find tickets based on given query
-  const features = new ApiFeatures(Ticket.find({"customerId":id}), req.query).filter().sort().pagination();
-  
-  const allCustomerTickets = await features.query.populate("customerId"); 
-  
+  const features = new ApiFeatures(Ticket.find({"customerId":id}), req.query).filter().sort().pagination(page);
+
+  const allCustomerTickets = await features.query.populate("customerId");
+
+  // Get the count of tickets after applying the filters
+  const countTickets = await Ticket.countDocuments({
+    customerId: id,
+    status: req.query.status || { $in: ['active', 'pending', 'closed'] },
+    tags: req.query.tags || { $in: ['Technical', 'Billing', 'Account', 'General'] }, 
+  });
+
+ 
   res.status(200).json({
     success: true,
-    length : allCustomerTickets.length,
-    allTickets: allCustomerTickets,
+    itemPerPage: page,
+    totalDocuments: countTickets,
+    length: allCustomerTickets.length, 
+    allTickets: allCustomerTickets, 
   });
+  
+
 });
 
 // Get All Agents or Admin Ticket 
 export const getAllAgentTickets = asyncHandler(async (req, res, next) => {
 
+  // Set the default number of tickets per page
+  const page = process.env.TICKETS_PER_PAGE || 10; 
   const {id} = req.params;
-
-  const page = process.env.TICKETS_PER_PAGE;
-  const agentTickets = await Ticket.find({"assignee":id});
 
   // Find tickets based on given query
 
   const features = new ApiFeatures(Ticket.find({"assignee":id}), req.query).filter().sort().pagination(page);
   
-  const ticketResponseData = await features.query.populate("assignee"); 
+  const allAgentTickets = await features.query.populate("assignee"); 
 
- 
-  res.status(200).json({
-    success: true,
-    itemPerPage : page,
-    totalDocuments : agentTickets?.length,
-    length : ticketResponseData.length,
-    allTickets: ticketResponseData,
+  // Get the count of tickets after applying the filters
+  const countTickets = await Ticket.countDocuments({
+    assignee: id,
+    status: req.query.status || { $in: ['active', 'pending', 'closed'] },
+    tags: req.query.tags || { $in: ['Technical', 'Billing', 'Account', 'General'] }, 
   });
+ 
+     
+     res.status(200).json({
+       success: true,
+       itemPerPage: page,
+       totalDocuments: countTickets,
+       length: allAgentTickets.length, 
+       allTickets: allAgentTickets, 
+     });
 });
 
 

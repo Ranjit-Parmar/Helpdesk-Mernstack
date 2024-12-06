@@ -15,22 +15,21 @@ const ChatPage = () => {
   return ticketIsLoading ? (
     <Loader/>
   ) : (
-    <div className=" min-h-screen flex flex-col w-full md:w-3/4 lg:w-2/4 mx-auto md:mt-8 bg-white shadow-lg rounded-lg">
-      <div className="bg-blue-600 text-white p-4 flex justify-between">
+    <div className="min-h-screen flex flex-col w-full md:w-3/4 lg:w-2/4 mx-auto bg-white shadow-lg rounded-lg">
+      <div className="bg-blue-600 text-white p-4 flex justify-between items-center">
         <h1 className="text-xl">Chat</h1>
-        <Link to="/my-tickets">back</Link>
+        <Link to="/my-tickets" className="underline">Back</Link>
       </div>
-
-      <div className="flex-1 p-4 ">
+      <div className="flex-1 p-4 overflow-auto">
         <div className="space-y-4">
           {ticketData?.ticket?.notes ?.filter((val) => val.note !== undefined || val.attachments.length > 0).map((msg, i) => (
-              <Messages
-                key={i}
-                sender={msg.author.role}
-                note={msg.note}
-                attachments={msg.attachments}
-              />
-            ))}
+            <Messages
+              key={i}
+              sender={msg.author.role}
+              note={msg.note}
+              attachments={msg.attachments}
+            />
+          ))}
         </div>
       </div>
     </div>
