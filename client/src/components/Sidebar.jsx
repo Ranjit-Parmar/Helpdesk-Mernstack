@@ -30,7 +30,7 @@ const Sidebar = () => {
   const logOutHandler = async () => {
     try {
       const option = {
-        url: "https://helpdesk-mernstack.onrender.com/api/v1/user/logOut",
+        url: `${import.meta.env.VITE_BASE_URL}/api/v1/user/logOut`,
         method: "GET",
         withCredentials: true,
       };

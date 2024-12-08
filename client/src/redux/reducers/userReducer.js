@@ -29,7 +29,7 @@ export const userSlice = createSlice({
 export const getUser = async () => {
   try {
     const option = {
-      url: "https://helpdesk-mernstack.onrender.com/api/v1/user/loadUser",
+      url: `${import.meta.env.VITE_BASE_URL}/api/v1/user/loadUser`,
       method: "GET",
       withCredentials: true,
     };
