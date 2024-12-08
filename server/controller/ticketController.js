@@ -143,7 +143,7 @@ export const getAllAgentTickets = asyncHandler(async (req, res, next) => {
 
   const features = new ApiFeatures(Ticket.find({"assignee":id}), req.query).filter().sort().pagination(page);
   
-  const allAgentTickets = await features.query.populate("assignee"); 
+  const allAgentTickets = await features.query.populate("assignee customerId"); 
 
   // Get the count of tickets after applying the filters
   const countTickets = await Ticket.countDocuments({
