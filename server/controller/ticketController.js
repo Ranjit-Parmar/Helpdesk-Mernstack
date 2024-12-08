@@ -50,6 +50,9 @@ export const getAllTickets = asyncHandler(async (req, res, next) => {
   // Set the default number of tickets per page
   const page = process.env.TICKETS_PER_PAGE || 10;
 
+  // Get all tickets for dashboard
+  const showAllTickets = await Ticket.find();
+
   // Find tickets based on given query
   const features = new ApiFeatures(Ticket.find(), req.query).filter().sort().pagination(page);
 
@@ -67,6 +70,7 @@ export const getAllTickets = asyncHandler(async (req, res, next) => {
     totalDocuments: countTickets,
     length: getTickets.length, 
     allTickets: getTickets, 
+    showAllTickets
   });
 });
 
@@ -132,6 +136,9 @@ export const getAllAgentTickets = asyncHandler(async (req, res, next) => {
   const page = process.env.TICKETS_PER_PAGE || 10; 
   const {id} = req.params;
 
+  // Get all tickets for dashboard
+  const showAllTickets = await Ticket.find({"assignee":id});
+
   // Find tickets based on given query
 
   const features = new ApiFeatures(Ticket.find({"assignee":id}), req.query).filter().sort().pagination(page);
@@ -152,6 +159,7 @@ export const getAllAgentTickets = asyncHandler(async (req, res, next) => {
        totalDocuments: countTickets,
        length: allAgentTickets.length, 
        allTickets: allAgentTickets, 
+       showAllTickets
      });
 });
 

@@ -152,7 +152,7 @@ const AddNote = () => {
             
             <select className={`${user.role === 'admin'? 'block' : 'hidden'} p-2 flex-1 border border-gray-300 rounded w-full md:w-auto ml-2`} disabled={disableOption} onChange={selectAssigneeHandler}>
               <option value="">Select Assignee</option>
-              {!userIsLoading && userData?.getAllUser?.map((val, i)=><option key={i} value={val._id}>{val.username}</option>)}
+              {!userIsLoading && userData?.getAllAgent?.map((val, i)=><option key={i} value={val._id}>{val.username}</option>)}
             </select>
           </div>
         </div>

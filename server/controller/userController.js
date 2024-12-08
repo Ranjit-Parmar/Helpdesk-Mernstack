@@ -115,6 +115,10 @@ export const loadUser = asyncHandler(async (req, res, next) => {
 export const getAllUsers = asyncHandler(async (req, res, next) => {
 
   const page = process.env.TICKETS_PER_PAGE;
+
+  // get all agent query
+  const getAllAgent = await User.find({role:'agent'});
+
   const resultApiFeatures = new ApiFeatures(User.find(), req.query).filter().pagination(page);
 
   const getAllUser = await resultApiFeatures.query;
@@ -134,6 +138,7 @@ export const getAllUsers = asyncHandler(async (req, res, next) => {
     totalDocuments : countUsers,
     length: getAllUser.length,
     getAllUser,
+    getAllAgent
   });
 });
 

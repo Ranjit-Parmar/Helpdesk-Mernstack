@@ -33,27 +33,27 @@ if (agentIsError) {
           <div className="bg-blue-500 text-white p-4 rounded-lg shadow-md">
             
             <h2 className="text-lg font-bold">Total Tickets</h2>
-            <p className="text-3xl">{user.role==='admin' ? allTicketsData?.length : allAgentTickets?.length}</p>
+            <p className="text-3xl">{user.role==='admin' ? allTicketsData?.totalDocuments : allAgentTickets?.totalDocuments}</p>
           </div>
           <div className={`${user.role==='admin'?'block':'hidden'} bg-pink-400 text-white p-4 rounded-lg shadow-md`}>
             
-            <h2 className="text-lg font-bold">Total Customers</h2>
-            <p className="text-3xl">{allUsers.length}</p>
+            <h2 className="text-lg font-bold">Total Users</h2>
+            <p className="text-3xl">{allUsers.totalDocuments}</p>
           </div>
           <div className="bg-green-500 text-white p-4 rounded-lg shadow-md">
             
             <h2 className="text-lg font-bold">Total Active Tickets</h2>
-            <p className="text-3xl">{(user.role==="admin"?allTicketsData : allAgentTickets).allTickets.filter((val)=>val.status==='active').length}</p>
+            <p className="text-3xl">{(user.role==="admin"?allTicketsData : allAgentTickets).showAllTickets.filter((val)=>val.status==='active').length}</p>
           </div>
           <div className="bg-red-500 text-white p-4 rounded-lg shadow-md">
             
             <h2 className="text-lg font-bold">Total Unsolved Tickets</h2>
-            <p className="text-3xl">{(user.role==="admin"?allTicketsData : allAgentTickets).allTickets.filter((val)=>val.status==='pending').length}</p>
+            <p className="text-3xl">{(user.role==="admin"?allTicketsData : allAgentTickets).showAllTickets.filter((val)=>val.status==='pending').length}</p>
           </div>
           <div className="bg-orange-300 text-white p-4 rounded-lg shadow-md">
             
             <h2 className="text-lg font-bold">Total Closed Tickets</h2>
-            <p className="text-3xl">{(user.role==="admin"?allTicketsData : allAgentTickets).allTickets.filter((val)=>val.status==='closed').length}</p>
+            <p className="text-3xl">{(user.role==="admin"?allTicketsData : allAgentTickets).showAllTickets.filter((val)=>val.status==='closed').length}</p>
           </div>
         </div>
       </div>

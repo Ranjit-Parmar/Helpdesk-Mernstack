@@ -17,11 +17,7 @@ const Sidebar = () => {
 
   const { user } = useSelector((state) => state.userReducer);
   const { data: allTicketsData, isLoading, isError } = useGetAllTicketsQuery();
-  const {
-    data: allAgentTickets,
-    isLoading: agentTicketIsloading,
-    isError: agentIsError,
-  } = useGetAllAgentTicketsQuery({ id: user._id });
+  const { data: allAgentTickets, isLoading: agentTicketIsloading, isError: agentIsError } = useGetAllAgentTicketsQuery({ id: user._id });
 
   const dispatch = useDispatch();
 
@@ -125,7 +121,7 @@ const Sidebar = () => {
                   </span>
                   <span className="inline-flex items-center justify-center w-6 h-6 ms-3 text-sm font-medium text-blue-800 bg-blue-100 rounded-full">
                     
-                    {allTicketsData?.length}
+                    {allTicketsData?.totalDocuments}
                   </span>
                 </Link>
               </li>
@@ -163,7 +159,7 @@ const Sidebar = () => {
                   <span className="inline-flex items-center justify-center w-6 h-6 ms-3 text-sm font-medium text-blue-800 bg-blue-100 rounded-full">
                     
                     {
-                      allTicketsData?.allTickets?.filter(
+                      allTicketsData?.showAllTickets?.filter(
                         (val) => val.status === "active"
                       ).length
                     }
@@ -186,7 +182,7 @@ const Sidebar = () => {
                   <span className="inline-flex items-center justify-center w-6 h-6 ms-3 text-sm font-medium text-blue-800 bg-blue-100 rounded-full">
                     
                     {
-                      allTicketsData?.allTickets?.filter(
+                      allTicketsData?.showAllTickets?.filter(
                         (val) => val.status === "pending"
                       ).length
                     }
@@ -209,7 +205,7 @@ const Sidebar = () => {
                   <span className="inline-flex items-center justify-center w-6 h-6 ms-3 text-sm font-medium text-blue-800 bg-blue-100 rounded-full">
                     
                     {
-                      allTicketsData?.allTickets?.filter(
+                      allTicketsData?.showAllTickets?.filter(
                         (val) => val.status === "closed"
                       ).length
                     }
@@ -256,7 +252,7 @@ const Sidebar = () => {
                   </span>
                   <span className="inline-flex items-center justify-center w-6 h-6 ms-3 text-sm font-medium text-blue-800 bg-blue-100 rounded-full">
                     
-                    {allAgentTickets?.length}
+                    {allAgentTickets?.totalDocuments}
                   </span>
                 </Link>
               </li>
@@ -276,7 +272,7 @@ const Sidebar = () => {
                   <span className="inline-flex items-center justify-center w-6 h-6 ms-3 text-sm font-medium text-blue-800 bg-blue-100 rounded-full">
                     
                     {
-                      allAgentTickets?.allTickets?.filter(
+                      allAgentTickets?.showAllTickets?.filter(
                         (val) => val.status === "active"
                       ).length
                     }
@@ -299,7 +295,7 @@ const Sidebar = () => {
                   <span className="inline-flex items-center justify-center w-6 h-6 ms-3 text-sm font-medium text-blue-800 bg-blue-100 rounded-full">
                     
                     {
-                      allAgentTickets?.allTickets?.filter(
+                      allAgentTickets?.showAllTickets?.filter(
                         (val) => val.status === "pending"
                       ).length
                     }
@@ -322,7 +318,7 @@ const Sidebar = () => {
                   <span className="inline-flex items-center justify-center w-6 h-6 ms-3 text-sm font-medium text-blue-800 bg-blue-100 rounded-full">
                     
                     {
-                      allAgentTickets?.allTickets?.filter(
+                      allAgentTickets?.showAllTickets?.filter(
                         (val) => val.status === "closed"
                       ).length
                     }
